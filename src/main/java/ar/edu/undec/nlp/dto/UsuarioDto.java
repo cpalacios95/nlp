@@ -1,11 +1,7 @@
 package ar.edu.undec.nlp.dto;
 
-import ar.edu.undec.nlp.model.RolEntity;
-import ar.edu.undec.nlp.model.UsuarioEntity;
+import java.time.LocalDate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class UsuarioDto {
 
@@ -14,11 +10,12 @@ public class UsuarioDto {
     private String usrApellidosDto;
     private String usrEmailDto;
     private String usrContraseniaDto;
-    private Date usrFechaCreacionDto;
+    private LocalDate usrFechaCreacionDto;
     private boolean usrEstadoDto;
+    private String usrCodigoVerificacionDto;
     private RolDto rolIdDto;
 
-    public UsuarioDto(Integer usrIdDto, String usrNombresDto, String usrApellidosDto, String usrEmailDto, String usrContraseniaDto, Date usrFechaCreacionDto, boolean usrEstadoDto, RolDto rolIdDto) {
+    public UsuarioDto(Integer usrIdDto, String usrNombresDto, String usrApellidosDto, String usrEmailDto, String usrContraseniaDto, LocalDate usrFechaCreacionDto, boolean usrEstadoDto, RolDto rolIdDto, String usrCodigoVerificacionDto) {
         this.usrIdDto = usrIdDto;
         this.usrNombresDto = usrNombresDto;
         this.usrApellidosDto = usrApellidosDto;
@@ -27,6 +24,15 @@ public class UsuarioDto {
         this.usrFechaCreacionDto = usrFechaCreacionDto;
         this.usrEstadoDto = usrEstadoDto;
         this.rolIdDto = rolIdDto;
+        this.usrCodigoVerificacionDto= usrCodigoVerificacionDto;
+    }
+
+    public String getUsrCodigoVerificacionDto() {
+        return usrCodigoVerificacionDto;
+    }
+
+    public void setUsrCodigoVerificacionDto(String usrCodigoVerificacionDto) {
+        this.usrCodigoVerificacionDto = usrCodigoVerificacionDto;
     }
 
     public UsuarioDto() {
@@ -73,11 +79,11 @@ public class UsuarioDto {
         this.usrContraseniaDto = usrContraseniaDto;
     }
 
-    public Date getUsrFechaCreacionDto() {
+    public LocalDate getUsrFechaCreacionDto() {
         return usrFechaCreacionDto;
     }
 
-    public void setUsrFechaCreacionDto(Date usrFechaCreacionDto) {
+    public void setUsrFechaCreacionDto(LocalDate usrFechaCreacionDto) {
         this.usrFechaCreacionDto = usrFechaCreacionDto;
     }
 
@@ -97,22 +103,4 @@ public class UsuarioDto {
         this.rolIdDto = rolIdDto;
     }
 
-    public List<UsuarioDto> getUsuarioDtoList(List<UsuarioEntity> usuarios) {
-        List<UsuarioDto> usuarioDtos = new ArrayList<>();
-
-        for (UsuarioEntity i: usuarios){
-            UsuarioDto usuarioDto = new UsuarioDto();
-            usuarioDto.setUsrIdDto(i.getUsrId());
-            usuarioDto.setUsrNombresDto(i.getUsrNombres());
-            usuarioDto.setUsrApellidosDto(i.getUsrApellidos());
-            usuarioDto.setUsrEmailDto(i.getUsrEmail());
-            usuarioDto.setUsrContraseniaDto(i.getUsrContrasenia());
-            usuarioDto.setUsrFechaCreacionDto(i.getUsrFechaCreacion());
-            usuarioDto.setUsrEstadoDto(i.isUsrEstado());
-            usuarioDto.setRolIdDto(new RolDto().getRolDto(i.getRolId()));
-
-            usuarioDtos.add(usuarioDto);
-        }
-        return usuarioDtos;
-    }
 }

@@ -17,7 +17,7 @@ public class RolController {
 
     @GetMapping()
     public ResponseEntity<?> getRoles(){
-        return new ResponseEntity<>(rolService.getRoles(), HttpStatus.OK);
+        return new ResponseEntity<>(rolService.getAllRoles(), HttpStatus.OK);
     }
 
 }

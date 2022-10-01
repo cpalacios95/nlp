@@ -5,12 +5,12 @@ import java.util.List;
 
 import javax.persistence.*;
 
-@Entity(name = "Rol")
+@Entity(name = "rol")
 public class RolEntity {
 
     @Id
-    @Column(name = "rol_id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rol_id", nullable = false)
     private Integer rolId;
 
     @Column(name = "rol_estado")
@@ -22,8 +22,6 @@ public class RolEntity {
     @Column(name = "rol_descripcion")
     private String rolDescripcion;
 
-    @OneToMany(mappedBy = "rolId")
-    private List<UsuarioEntity> usuarios;
 
     public RolEntity(){
 
@@ -61,11 +59,11 @@ public class RolEntity {
         this.rolDescripcion = rolDescripcion;
     }
 
-    public List<UsuarioEntity> getUsuarios() {
-        return usuarios;
-    }
-
-    public void setUsuarios(List<UsuarioEntity> usuarios) {
-        this.usuarios = usuarios;
-    }
+//    public List<UsuarioEntity> getUsuarios() {
+//        return usuarios;
+//    }
+//
+//    public void setUsuarios(List<UsuarioEntity> usuarios) {
+//        this.usuarios = usuarios;
+//    }
 }

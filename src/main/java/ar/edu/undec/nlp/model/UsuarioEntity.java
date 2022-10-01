@@ -1,74 +1,80 @@
 package ar.edu.undec.nlp.model;
-import java.util.Date;
+import ar.edu.undec.nlp.security.Authority;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.persistence.Id;
 
 
-@Entity(name = "Usuario")
-public class UsuarioEntity {
+@Entity(name = "usuario")
+public class UsuarioEntity implements UserDetails {
 
     @Id
-    @Column(name = "usr_id")
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "usr_id", nullable = false)
     private Integer usrId;
 
-    @Column(name = "usr_nombres")
+    @Column(name = "usr_nombres", nullable = false, length = 30)
     private String usrNombres;
 
-    @Column(name = "usr_apellidos")
+    @Column(name = "usr_apellidos", nullable = false, length = 30)
     private String usrApellidos;
 
-    @Column(name = "usr_email")
+    @Column(name = "usr_email", nullable = false, length = 40)
     private String usrEmail;
 
-    @Column(name = "usr_contrasenia")
+    @Column(name = "usr_contrasenia", nullable = false, length = 40)
     private String usrContrasenia;
 
-    @Column(name = "usr_fecha_creacion")
-    private Date usrFechaCreacion;
+    @Column(name = "usr_fecha_creacion", nullable = false)
+    private LocalDate usrFechaCreacion;
 
-    @Column(name = "usr_estado")
-    private boolean usrEstado;
+    @Column(name = "usr_codigo_verificacion", nullable = true, length = 5)
+    private String usrCodigoVerificacion;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_id", insertable =false, updatable = false)
+    public String getUsrCodigoVerificacion() {
+        return usrCodigoVerificacion;
+    }
+
+    public void setUsrCodigoVerificacion(String usrCodigoVerificacion) {
+        this.usrCodigoVerificacion = usrCodigoVerificacion;
+    }
+
+    @Column(name = "usr_estado", nullable = false)
+    private Boolean usrEstado = false;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "rol_id", nullable = false)
     private RolEntity rolId;
 
-    public UsuarioEntity(){
-
+    public RolEntity getRolId() {
+        return rolId;
     }
 
-    public Integer getUsrId() {
-        return usrId;
+    public void setRolId(RolEntity rol) {
+        this.rolId = rol;
     }
 
-    public void setUsrId(Integer usrId) {
-        this.usrId = usrId;
+    public Boolean getUsrEstado() {
+        return usrEstado;
     }
 
-    public String getUsrNombres() {
-        return usrNombres;
+    public void setUsrEstado(Boolean usrEstado) {
+        this.usrEstado = usrEstado;
     }
 
-    public void setUsrNombres(String usrNombres) {
-        this.usrNombres = usrNombres;
+    public LocalDate getUsrFechaCreacion() {
+        return usrFechaCreacion;
     }
 
-    public String getUsrApellidos() {
-        return usrApellidos;
-    }
-
-    public void setUsrApellidos(String usrApellidos) {
-        this.usrApellidos = usrApellidos;
-    }
-
-    public String getUsrEmail() {
-        return usrEmail;
-    }
-
-    public void setUsrEmail(String usrEmail) {
-        this.usrEmail = usrEmail;
+    public void setUsrFechaCreacion(LocalDate usrFechaCreacion) {
+        this.usrFechaCreacion = usrFechaCreacion;
     }
 
     public String getUsrContrasenia() {
@@ -79,27 +85,73 @@ public class UsuarioEntity {
         this.usrContrasenia = usrContrasenia;
     }
 
-    public Date getUsrFechaCreacion() {
-        return usrFechaCreacion;
+    public String getUsrEmail() {
+        return usrEmail;
     }
 
-    public void setUsrFechaCreacion(Date usrFechaCreacion) {
-        this.usrFechaCreacion = usrFechaCreacion;
+    public void setUsrEmail(String usrEmail) {
+        this.usrEmail = usrEmail;
     }
 
-    public boolean isUsrEstado() {
-        return usrEstado;
+    public String getUsrApellidos() {
+        return usrApellidos;
     }
 
-    public void setUsrEstado(boolean usrEstado) {
-        this.usrEstado = usrEstado;
+    public void setUsrApellidos(String usrApellidos) {
+        this.usrApellidos = usrApellidos;
     }
 
-    public RolEntity getRolId() {
-        return rolId;
+    public String getUsrNombres() {
+        return usrNombres;
     }
 
-    public void setRolId(RolEntity rolId) {
-        this.rolId = rolId;
+    public void setUsrNombres(String usrNombres) {
+        this.usrNombres = usrNombres;
+    }
+
+    public Integer getUsrId() {
+        return usrId;
+    }
+
+    public void setUsrId(Integer id) {
+        this.usrId = id;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+
+        Set<Authority> authorities = new HashSet<>();
+        authorities.add(new Authority(this.rolId.getRolDescripcion()));
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.usrContrasenia;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.usrEmail;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

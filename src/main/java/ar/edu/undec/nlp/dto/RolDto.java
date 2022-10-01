@@ -1,12 +1,8 @@
 package ar.edu.undec.nlp.dto;
 
-
 import ar.edu.undec.nlp.model.RolEntity;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 
 public class RolDto {
 
@@ -15,15 +11,21 @@ public class RolDto {
     private Date rolFechaCreacionDto;
     private String rolDescripcionDto;
 
-    public RolDto(){
-
-    }
-
     public RolDto(int rolIdDto, boolean rolEstadoDto, Date rolFechaCreacionDto, String rolDescripcionDto) {
         this.rolIdDto = rolIdDto;
         this.rolEstadoDto = rolEstadoDto;
         this.rolFechaCreacionDto = rolFechaCreacionDto;
         this.rolDescripcionDto = rolDescripcionDto;
+    }
+
+    public RolDto() {
+
+    }
+
+    public RolDto getRolDto(RolEntity rolId) {
+
+        return new RolDto(rolId.getRolId(), rolId.isRolEstado(), rolId.getRolFechaCreacion(), rolId.getRolDescripcion());
+
     }
 
     public int getRolIdDto() {
@@ -56,28 +58,5 @@ public class RolDto {
 
     public void setRolDescripcionDto(String rolDescripcionDto) {
         this.rolDescripcionDto = rolDescripcionDto;
-    }
-
-    public List<RolDto> getRolDtoList(List<RolEntity> all) {
-
-        List<RolDto> rolDtos = new ArrayList<>();
-        for(RolEntity i: all){
-
-            RolDto rolDto = new RolDto();
-            rolDto.setRolIdDto(i.getRolId());
-            rolDto.setRolDescripcionDto(i.getRolDescripcion());
-            rolDto.setRolEstadoDto(i.isRolEstado());
-            rolDto.setRolFechaCreacionDto(i.getRolFechaCreacion());
-
-            rolDtos.add(rolDto);
-        }
-
-        return rolDtos;
-    }
-
-    public RolDto getRolDto(RolEntity rolId) {
-
-        return new RolDto(rolId.getRolId(), rolId.isRolEstado(), rolId.getRolFechaCreacion(), rolId.getRolDescripcion());
-
     }
 }
