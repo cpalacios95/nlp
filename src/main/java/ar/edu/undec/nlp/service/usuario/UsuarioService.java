@@ -49,6 +49,11 @@ public class UsuarioService {
         return UsuarioMapper.usuarioEntityToUsuarioDto(IUsuarioRepository.findById(id).get());
     }
 
+    public UsuarioEntity getUsuariEntityById(Integer id){
+        return this.IUsuarioRepository.findById(id).get();
+    }
+
+
     public UsuarioDto getUserByEmail(String email) {
 
         UsuarioEntity usuarioEntity= IUsuarioRepository.findUsuarioEntityByUsrEmail(email);
